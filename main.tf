@@ -44,16 +44,19 @@ resource "ibm_pi_instance" "empty_lpar" {
 
   # Inject the ID of the 'IBMI-EMPTY' image retrieved via the data lookup.
   pi_image_id      = data.ibm_pi_image.empty_os_image.id
-  #pi_deployment_type = "VMNoStorage"
-
-
-
+  pi_deployment_type = "VMNoStorage"
+  
+  # Must define affinity policy by either the Instance ID or the Volumes
+  pi_storage_affinity = "affinity"
+  pi_storage_affinity_instance  = "0079cd3c-d81a-4aeb-b15f-b6ebaa76d14c"
+  
   # Define compute resources using input variables
   pi_memory     = var.pvs_instance_memory
   pi_processors = var.pvs_instance_cores
   pi_proc_type  = "shared" # Defines the processor type (e.g., shared, dedicated, capped)
   pi_sys_type   = "s1022" 
   pi_storage_type  = "tier1" 
+  
 
 
   # Specify the pre-existing SSH key name for access after creation.
