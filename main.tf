@@ -37,13 +37,6 @@ data "ibm_pi_network" "pvs_network" {
 # RESOURCE: IBM Power Virtual Server Instance (LPAR)
 # ======================================================================
 
-# This resource MUST exist in the configuration before the instance references it.
-resource "ibm_pi_placement_group" "same_server_pg" {
-  pi_cloud_instance_id    = local.pvs_cloud_instance_guid
-  pi_placement_group_name = "clone-placement-group" 
-  pi_policy               = "affinity"             
-}
-
 resource "ibm_pi_instance" "empty_lpar" {
   # Assign the LPAR to the target PowerVS workspace using the GUID.
   pi_cloud_instance_id = local.pvs_cloud_instance_guid
@@ -51,9 +44,16 @@ resource "ibm_pi_instance" "empty_lpar" {
 
   # Stating argument for no OS
   pi_deployment_type = "VMNoStorage"
-  
-  # Inject the ID of the Affinity Placement Group
-  pi_placement_group = ibm_pi_placement_group.same_server_pg.placement_group_id
+
+  # Define the policy: "affinity" ensures the volume is created in the same storage provider as the target object
+  pi_storage_affinity = "affinity" 
+
+  # Specify the object to base the affinity against
+  pi_storage_affinity_instance = var.affinity_source_instance_id
+
+  # This setting indicates that all volumes attached to this server must reside in the same storage pool
+  # This is crucial for PVM instance snapshot, capture, and clone features
+  pi_storage_pool_affinity = true 
 
 
   # Inject the ID of the 'IBMI-EMPTY' image retrieved via the data lookup.
