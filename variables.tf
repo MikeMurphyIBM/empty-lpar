@@ -57,5 +57,5 @@ variable "pvs_instance_memory" {
 variable "pvs_instance_name" {
   description = "The name of the lpar instance"
   type = string
-  default = "empty lpar"
+  default = "empty-lpar"
 }
