@@ -33,7 +33,7 @@ variable "pvs_workspace_name" {
 variable "pvs_ibmi_image_id" {
   description = "The image ID for the empty IBMi Image we want to deploy"
   type = string
-  default = "5ccf25e5-e543-4fe7-bbc4-cf0fbb2be420"
+  default = "dbe4470c-03d3-4b19-b2c2-2084a21bb110"
 }
 
 variable "pvs_ibmi_image_name" {
