@@ -41,11 +41,6 @@ resource "ibm_pi_instance" "empty_lpar" {
   pi_cloud_instance_id = local.pvs_cloud_instance_guid
   pi_instance_name = var.pvs_instance_name
 
-  software {
-    ibmi_css_license = false
-    ibmi_pha_license = false
-    ibmi_rds_users   = 0
-  }
 
   # Inject the ID of the 'IBMI-EMPTY' image retrieved via the data lookup.
   pi_image_id      = data.ibm_pi_image.empty_os_image.id
