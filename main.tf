@@ -36,19 +36,29 @@ data "ibm_pi_network" "pvs_network" {
 # ======================================================================
 # RESOURCE: IBM Power Virtual Server Instance (LPAR)
 # ======================================================================
+
+# This resource MUST exist in the configuration before the instance references it.
+resource "ibm_pi_placement_group" "same_server_pg" {
+  pi_cloud_instance_id    = local.pvs_cloud_instance_guid
+  pi_placement_group_name = "clone-placement-group" 
+  pi_policy               = "affinity"             
+}
+
 resource "ibm_pi_instance" "empty_lpar" {
   # Assign the LPAR to the target PowerVS workspace using the GUID.
   pi_cloud_instance_id = local.pvs_cloud_instance_guid
   pi_instance_name = var.pvs_instance_name
 
+  # Stating argument for no OS
+  pi_deployment_type = "VMNoStorage"
+  
+  # Inject the ID of the Affinity Placement Group
+  pi_placement_group = ibm_pi_placement_group.same_server_pg.placement_group_id
+
 
   # Inject the ID of the 'IBMI-EMPTY' image retrieved via the data lookup.
   pi_image_id      = data.ibm_pi_image.empty_os_image.id
-  pi_deployment_type = "VMNoStorage"
-  
-  # Must define affinity policy by either the Instance ID or the Volumes
-  pi_storage_affinity = "affinity"
-  pi_storage_affinity_instance  = "0079cd3c-d81a-4aeb-b15f-b6ebaa76d14c"
+ 
   
   # Define compute resources using input variables
   pi_memory     = var.pvs_instance_memory
