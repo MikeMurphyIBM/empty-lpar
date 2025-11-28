@@ -29,10 +29,10 @@ data "ibm_pi_image" "empty_os_image" {
 }
 
 # 5. Retrieve the existing PowerVS network details to attach the LPAR to.
-data "ibm_pi_network" "pvs_network" {
-  pi_cloud_instance_id = local.pvs_cloud_instance_guid
-  pi_network_id        = var.existing_network_id
-}
+#data "ibm_pi_network" "pvs_network" {
+#  pi_cloud_instance_id = local.pvs_cloud_instance_guid
+#  pi_network_id        = var.existing_network_id
+#}
 
 # ======================================================================
 # RESOURCE: IBM Power Virtual Server Instance (LPAR)
