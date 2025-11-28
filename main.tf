@@ -14,10 +14,9 @@ data "ibm_resource_instance" "pvs_workspace" {
   name = var.pvs_workspace_name
 }
 
-# 3. Convert the CRN to the GUID required by the lower-level 'ibm_pi_' resources.
 locals {
-  # This splits the CRN string and extracts the final segment (index 7) as the GUID.
-  pvs_cloud_instance_guid = split(":", data.ibm_resource_instance.pvs_workspace.id)[1]
+  # Correct way to get the GUID (assuming index 7 is the GUID)
+  pvs_cloud_instance_guid = element(split(":", data.ibm_resource_instance.pvs_workspace.id), 7)
 }
 
 # 4. CRITICAL: Retrieve the Image ID for the specialized 'IBMI-EMPTY' deployment.
@@ -29,10 +28,10 @@ data "ibm_pi_image" "empty_os_image" {
 }
 
 # 5. Retrieve the existing PowerVS network details to attach the LPAR to.
-#data "ibm_pi_network" "pvs_network" {
-#  pi_cloud_instance_id = local.pvs_cloud_instance_guid
-#  pi_network_id        = var.existing_network_id
-#}
+data "ibm_pi_network" "pvs_network" {
+  pi_cloud_instance_id = local.pvs_cloud_instance_guid
+  pi_network_id        = var.existing_network_id
+}
 
 # ======================================================================
 # RESOURCE: IBM Power Virtual Server Instance (LPAR)
