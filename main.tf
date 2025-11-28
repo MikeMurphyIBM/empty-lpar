@@ -50,7 +50,8 @@ resource "ibm_pi_instance" "empty_lpar" {
   pi_processors = var.pvs_instance_cores
   pi_proc_type  = "shared" # Defines the processor type (e.g., shared, dedicated, capped)
   pi_sys_type   = "s922" 
-  pi_storage_type  = "tier3" 
+  pi_deployment_type = "VMNoStorage"
+  pi_storage_type  = "tier1" # Options: "tier0", "tier1", "tier3" 
  
 
   # Specify the pre-existing SSH key name for access after creation.
