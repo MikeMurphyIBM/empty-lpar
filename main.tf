@@ -46,6 +46,13 @@ resource "ibm_pi_instance" "empty_lpar" {
   pi_image_id      = data.ibm_pi_image.empty_os_image.id
   pi_deployment_type = "VMNoStorage"
 
+ # LICENSING FIX: Explicitly set ALL optional IBM i licenses to OFF/ZERO
+  # This prevents the provider from injecting implicit default values that
+  # the 'VMNoStorage' API endpoint rejects.
+  pi_ibmi_css_license  = false
+  pi_ibmi_pha_license  = false
+  pi_ibmi_rds_users    = 0 
+
   # Define compute resources using input variables
   pi_memory     = var.pvs_instance_memory
   pi_processors = var.pvs_instance_cores
