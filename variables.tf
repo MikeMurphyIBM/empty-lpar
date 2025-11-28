@@ -1,5 +1,5 @@
-variable "dr_pvs_region" {
-  description = "Where to deploy the DR environment"
+variable "pvs_region" {
+  description = "Where to deploy the environment"
   default = "us-south"
 }
 
@@ -36,10 +36,10 @@ variable "pvs_ibmi_image_id" {
   default = "5ccf25e5-e543-4fe7-bbc4-cf0fbb2be420"
 }
 
-variable "pvs_aix_image_name" {
+variable "pvs_ibmi_image_name" {
   description = "The name of the image"
   type = string
-  default = "7200-05-10"
+  default = "IBMI-EMPTY"
 }
 
 variable "pvs_instance_cores" {
