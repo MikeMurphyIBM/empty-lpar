@@ -57,7 +57,7 @@ resource "ibm_pi_instance" "empty_lpar" {
   pi_memory     = var.pvs_instance_memory
   pi_processors = var.pvs_instance_cores
   pi_proc_type  = "shared" # Defines the processor type (e.g., shared, dedicated, capped)
-  pi_sys_type   = "s922" 
+  pi_sys_type   = "s1022" 
   pi_storage_type  = "tier1" 
 
 
