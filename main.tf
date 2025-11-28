@@ -44,7 +44,7 @@ resource "ibm_pi_instance" "empty_lpar" {
 
   # Inject the ID of the 'IBMI-EMPTY' image retrieved via the data lookup.
   pi_image_id      = data.ibm_pi_image.empty_os_image.id
-  pi_deployment_type = "VMNoStorage"
+  #pi_deployment_type = "VMNoStorage"
 
 
 
